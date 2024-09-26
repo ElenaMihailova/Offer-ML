@@ -1,4 +1,4 @@
-import WelcomePageView from './WelcomePage.view';
+import WelcomePageView from './welcome-page.view';
 import { useState, useEffect } from 'react';
 
 const WelcomePage = () => {

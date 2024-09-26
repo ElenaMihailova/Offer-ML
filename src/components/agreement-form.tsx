@@ -36,7 +36,7 @@ export const AgreementForm: React.FC<AgreementFormProps> = ({ onConfirm }) => {
       maxWidth="500px"
     >
       <Link
-        href="#"
+        href="/offer"
         target="_blank"
         rel="noopener"
         sx={{
