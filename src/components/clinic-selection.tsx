@@ -18,7 +18,6 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
   const theme = useTheme();
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
 
-  // Используем стили кнопок
   const styles = buttonStyles(theme);
 
   useEffect(() => {
