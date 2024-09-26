@@ -1,5 +1,5 @@
 import { PageWrapper } from '../../components/page-wrapper';
-import { Typography, Container } from '@mui/material';
+import { Typography, Container, useTheme } from '@mui/material';
 import { ClinicSelection } from '../../components/clinic-selection';
 
 import { ClientInfoForm } from '../../components/client-info-form';
@@ -25,6 +25,7 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
   isAgreementConfirmed,
   isClientInfoFormVisible,
 }) => {
+  const theme = useTheme();
   return (
     <PageWrapper>
       <Container
@@ -34,11 +35,11 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
           flexDirection: 'column',
           alignItems: 'center',
           gap: {
-            xs: '20px',
+            xs: theme.spacing(2),
           },
           paddingX: '0',
-          paddingY: '20px',
-          maxWidth: '880px',
+          paddingY: theme.spacing(2),
+          maxWidth: theme.breakpoints.values.md,
         }}
       >
         <Typography
@@ -46,8 +47,8 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
           gutterBottom
           sx={{
             fontSize: {
-              xs: '19px',
-              md: '21px',
+              xs: '16px',
+              md: '20px',
             },
             fontFamily: "'Exo 2', sans-serif",
             fontWeight: '400',
@@ -55,7 +56,7 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
             wordWrap: 'break-word',
             textAlign: 'center',
             margin: '0px',
-            maxWidth: '700px',
+            maxWidth: theme.breakpoints.values.md,
           }}
         >
           Для завершения бронирования даты и времени услуги, пожалуйста, укажите

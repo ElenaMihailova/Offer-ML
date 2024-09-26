@@ -1,8 +1,9 @@
 import { PageWrapper } from '../../components/page-wrapper';
-import { Container } from '@mui/material';
+import { Container, useTheme } from '@mui/material';
 import { OfferText } from '../../components/offer-text';
 
 export const OfferPageView = () => {
+  const theme = useTheme();
   return (
     <PageWrapper>
       <Container
@@ -11,12 +12,11 @@ export const OfferPageView = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: {
-            xs: '20px',
-          },
-          paddingX: '0',
-          paddingY: '20px',
-          maxWidth: '880px',
+          gap: theme.spacing(2),
+          paddingX: 0,
+          paddingY: theme.spacing(2),
+          maxWidth: theme.breakpoints.values.md,
+          backgroundColor: theme.palette.background.default,
         }}
       >
         <OfferText />
