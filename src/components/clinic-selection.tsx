@@ -52,7 +52,10 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
   };
 
   const renderCityButtons = () => (
-    <Stack direction="row" sx={{ ...styles.buttonContainer, gap: '20px' }}>
+    <Stack
+      direction="row"
+      sx={{ ...styles.buttonContainer, gap: '20px', justifyContent: 'center' }}
+    >
       {cities.map((city) => (
         <CSSTransition
           key={city}
@@ -67,10 +70,10 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
             disabled={!!selectedCity}
             onClick={() => handleCityClick(city)}
             sx={{
-              ...styles.button,
+              ...styles.cityButton,
               ...(selectedCity === city && {
                 opacity: 1,
-                width: '300px',
+                transform: 'translateY(0)',
               }),
             }}
           >
@@ -96,6 +99,19 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
             disabled={selectedBranch === branch}
             color={selectedBranch === branch ? 'success' : 'primary'}
             onClick={() => handleBranchClick(branch)}
+            sx={{
+              ...styles.branchButton,
+              '&:active': {
+                backgroundColor: 'rgba(20, 173, 169, 0.6)',
+                color: theme.palette.common.white,
+                boxShadow: `0 0 10px ${theme.palette.primary.main}`,
+              },
+              '&:disabled': {
+                backgroundColor: 'rgba(20, 173, 169, 0.6)',
+                cursor: 'not-allowed',
+                color: theme.palette.common.white,
+              },
+            }}
           >
             {branch}
           </Button>
@@ -110,7 +126,14 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
         variant="contained"
         color="success"
         disabled
-        sx={{ width: '300px', marginTop: theme.spacing(2) }}
+        sx={{
+          '&:disabled': {
+            width: '300px',
+            backgroundColor: 'rgba(20, 173, 169, 0.6)',
+            cursor: 'not-allowed',
+            color: theme.palette.common.white,
+          },
+        }}
       >
         {selectedBranch}
       </Button>
@@ -120,26 +143,52 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
   const styles = {
     buttonContainer: {
       display: 'flex',
+      flexDirection: 'column',
       justifyContent: 'center',
       flexWrap: 'wrap',
       gap: theme.spacing(2),
       marginTop: theme.spacing(2),
-      [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        alignItems: 'center',
+    },
+    cityButton: {
+      transition: 'opacity 1s ease',
+      opacity: selectedCity === null ? 1 : 0,
+      width: '300px',
+      height: '50px',
+      transform: 'translateY(0)',
+      '&:active': {
+        backgroundColor: 'rgba(20, 173, 169, 0.6)',
+        color: theme.palette.common.white,
+        boxShadow: `0 0 10px ${theme.palette.primary.main}`,
+      },
+      '&:disabled': {
+        backgroundColor: 'rgba(20, 173, 169, 0.6)',
+        cursor: 'not-allowed',
+        color: theme.palette.common.white,
       },
     },
-    button: {
-      transition: 'opacity 1s ease, transform 0.5s ease',
-      opacity: selectedCity === null ? 1 : 0,
-      width: '100%',
-      maxWidth: '300px',
+    branchButton: {
+      width: '300px',
+      height: '50px',
+      transform: 'translateY(0)',
+      transition: 'transform 0.5s ease',
+    },
+    resetButtonContainer: {
+      height: '40px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: theme.spacing(2),
     },
     resetButton: {
       fontWeight: 400,
-      fontSize: '12px',
+      fontSize: '14px',
       textTransform: 'none',
-      color: theme.palette.text.secondary,
+      color: theme.palette.text.primary,
+      fontStyle: 'italic',
+      textDecoration: 'underline',
+      visibility: selectedCity ? 'visible' : 'hidden',
+      opacity: selectedCity ? 1 : 0,
+      transition: 'visibility 0.5s, opacity 0.5s ease',
       '&:hover': {
         backgroundColor: 'rgba(255,255,255,0.1)',
       },
@@ -148,10 +197,8 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
 
   return (
     <Box>
-      {renderCityButtons()}
-
-      {selectedCity && isAnimationComplete && (
-        <Box textAlign="center">
+      {selectedCity && (
+        <Box sx={styles.resetButtonContainer}>
           <Button
             variant="text"
             color="success"
@@ -162,6 +209,8 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
           </Button>
         </Box>
       )}
+
+      {renderCityButtons()}
 
       {selectedCity === 'Москва' && isAnimationComplete && !selectedBranch && (
         <Box mt={2} textAlign="center">
@@ -193,21 +242,25 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
 
       <style>
         {`
-          .fade-enter {
-            opacity: 0;
-          }
-          .fade-enter-active {
-            opacity: 1;
-            transition: opacity 500ms, transform 500ms;
-          }
-          .fade-exit {
-            opacity: 1;
-          }
-          .fade-exit-active {
-            opacity: 0;
-            transition: opacity 500ms, transform 500ms;
-          }
-        `}
+    .fade-enter {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    .fade-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+    .fade-exit {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-exit-active {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+  `}
       </style>
     </Box>
   );

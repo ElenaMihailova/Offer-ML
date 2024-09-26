@@ -21,6 +21,8 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
+        maxWidth: '1024px',
+        margin: '0px auto',
       }}
     >
       <Box

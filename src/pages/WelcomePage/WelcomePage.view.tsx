@@ -8,22 +8,22 @@ import { ThankYouMessage } from '../../components/thank-you-message';
 
 interface WelcomePageViewProps {
   onSelectionComplete: () => void;
-  isSelectionComplete: boolean;
   onResetSelection: () => void;
   isFormSubmitted: boolean;
   onSubmit: () => void;
   onConfirm: (isChecked: boolean) => void;
   isAgreementConfirmed: boolean;
+  isClientInfoFormVisible: boolean;
 }
 
 const WelcomePageView: React.FC<WelcomePageViewProps> = ({
   onSelectionComplete,
-  isSelectionComplete,
   onResetSelection,
   isFormSubmitted,
   onSubmit,
   onConfirm,
   isAgreementConfirmed,
+  isClientInfoFormVisible,
 }) => {
   return (
     <PageWrapper>
@@ -67,7 +67,7 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
           onResetSelection={onResetSelection}
         />
 
-        {isSelectionComplete && !isFormSubmitted && (
+        {isClientInfoFormVisible && !isFormSubmitted && (
           <ClientInfoForm onSubmit={onSubmit} />
         )}
 
