@@ -7,13 +7,18 @@ import { AgreementForm } from '../../components/agreement-form';
 import { ThankYouMessage } from '../../components/thank-you-message';
 
 interface WelcomePageViewProps {
-  onSelectionComplete: () => void;
+  onSelectionComplete: (city: string, branch?: string) => void;
   onResetSelection: () => void;
   isFormSubmitted: boolean;
   onSubmit: () => void;
   onConfirm: (isChecked: boolean) => void;
   isAgreementConfirmed: boolean;
   isClientInfoFormVisible: boolean;
+  offerUrl: string;
+  isChecked: boolean;
+  isSubmitted: boolean;
+  onCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onConfirmClick: () => void;
 }
 
 const WelcomePageView: React.FC<WelcomePageViewProps> = ({
@@ -21,11 +26,16 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
   onResetSelection,
   isFormSubmitted,
   onSubmit,
-  onConfirm,
   isAgreementConfirmed,
   isClientInfoFormVisible,
+  offerUrl,
+  isChecked,
+  isSubmitted,
+  onCheckboxChange,
+  onConfirmClick,
 }) => {
   const theme = useTheme();
+
   return (
     <PageWrapper>
       <Container
@@ -72,7 +82,15 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
           <ClientInfoForm onSubmit={onSubmit} />
         )}
 
-        {isFormSubmitted && <AgreementForm onConfirm={onConfirm} />}
+        {isFormSubmitted && (
+          <AgreementForm
+            offerUrl={offerUrl}
+            isChecked={isChecked}
+            isSubmitted={isSubmitted}
+            onCheckboxChange={onCheckboxChange}
+            onConfirmClick={onConfirmClick}
+          />
+        )}
 
         {isAgreementConfirmed && <ThankYouMessage />}
       </Container>

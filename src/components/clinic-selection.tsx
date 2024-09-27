@@ -3,9 +3,10 @@ import { Stack, Button, Box, useTheme } from '@mui/material';
 import { CSSTransition } from 'react-transition-group';
 import { cities, moscowBranches, spbBranches } from '../data/constants';
 import { buttonStyles } from './button-styles';
+import { useCookies } from 'react-cookie';
 
 interface ClinicSelectionProps {
-  onSelectionComplete: () => void;
+  onSelectionComplete: (city: string, branch?: string) => void;
   onResetSelection: () => void;
 }
 
@@ -13,12 +14,20 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
   onSelectionComplete,
   onResetSelection,
 }) => {
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
+  const [cookies, setCookie] = useCookies(['city', 'branch']);
+
+  const [selectedCity, setSelectedCity] = useState<string | null>(
+    cookies.city || null,
+  );
+  const [selectedBranch, setSelectedBranch] = useState<string | null>(
+    cookies.branch || null,
+  );
   const theme = useTheme();
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
 
   const styles = buttonStyles(theme);
+
+  const citiesWithoutBranch = ['Казань', 'Уфа', 'Тверь'];
 
   useEffect(() => {
     if (selectedCity) {
@@ -28,18 +37,25 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
   }, [selectedCity]);
 
   useEffect(() => {
-    if (selectedCity && selectedBranch) {
-      onSelectionComplete();
+    if (selectedCity && citiesWithoutBranch.includes(selectedCity)) {
+      setCookie('city', selectedCity, { path: '/' });
+      onSelectionComplete(selectedCity);
     }
-  }, [selectedCity, selectedBranch, onSelectionComplete]);
+
+    if (selectedCity && selectedBranch) {
+      setCookie('city', selectedCity, { path: '/' });
+      setCookie('branch', selectedBranch, { path: '/' });
+      onSelectionComplete(selectedCity, selectedBranch);
+    }
+  }, [selectedCity, selectedBranch, onSelectionComplete, setCookie]);
 
   const handleCityClick = (city: string) => {
     setSelectedCity(city);
     setIsAnimationComplete(false);
     setSelectedBranch(null);
 
-    if (city !== 'Москва' && city !== 'Санкт-Петербург') {
-      onSelectionComplete();
+    if (citiesWithoutBranch.includes(city)) {
+      onSelectionComplete(city);
     }
   };
 
@@ -51,6 +67,8 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
     setSelectedCity(null);
     setSelectedBranch(null);
     setIsAnimationComplete(false);
+    setCookie('city', '', { path: '/' });
+    setCookie('branch', '', { path: '/' });
     onResetSelection();
   };
 

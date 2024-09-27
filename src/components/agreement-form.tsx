@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Box,
   Link,
@@ -10,22 +9,21 @@ import {
 import DescriptionIcon from '@mui/icons-material/Description';
 
 interface AgreementFormProps {
-  onConfirm: (isChecked: boolean) => void;
+  offerUrl: string;
+  isChecked: boolean;
+  isSubmitted: boolean;
+  onCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onConfirmClick: () => void;
 }
 
-export const AgreementForm: React.FC<AgreementFormProps> = ({ onConfirm }) => {
+export const AgreementForm: React.FC<AgreementFormProps> = ({
+  offerUrl,
+  isChecked,
+  isSubmitted,
+  onCheckboxChange,
+  onConfirmClick,
+}) => {
   const theme = useTheme();
-  const [isChecked, setIsChecked] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
-  };
-
-  const handleConfirmClick = () => {
-    onConfirm(isChecked);
-    setIsSubmitted(true);
-  };
 
   return (
     <Box
@@ -36,7 +34,7 @@ export const AgreementForm: React.FC<AgreementFormProps> = ({ onConfirm }) => {
       maxWidth="500px"
     >
       <Link
-        href="/offer"
+        href={offerUrl}
         target="_blank"
         rel="noopener"
         sx={{
@@ -54,7 +52,7 @@ export const AgreementForm: React.FC<AgreementFormProps> = ({ onConfirm }) => {
         control={
           <Checkbox
             checked={isChecked}
-            onChange={handleCheckboxChange}
+            onChange={onCheckboxChange}
             disabled={isSubmitted}
           />
         }
@@ -67,7 +65,7 @@ export const AgreementForm: React.FC<AgreementFormProps> = ({ onConfirm }) => {
       <Button
         variant="contained"
         color="primary"
-        onClick={handleConfirmClick}
+        onClick={onConfirmClick}
         disabled={!isChecked || isSubmitted}
         sx={{
           mt: 2,

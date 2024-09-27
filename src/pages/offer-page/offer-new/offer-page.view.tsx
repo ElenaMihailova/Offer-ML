@@ -1,6 +1,5 @@
-import { PageWrapper } from '../../components/page-wrapper';
+import { PageWrapper } from '../../../components/page-wrapper';
 import { Container, useTheme } from '@mui/material';
-import { OfferText } from '../../components/offer-text';
 
 export const OfferPageView = () => {
   const theme = useTheme();
@@ -16,10 +15,11 @@ export const OfferPageView = () => {
           paddingX: 0,
           paddingY: theme.spacing(2),
           maxWidth: theme.breakpoints.values.md,
-          backgroundColor: theme.palette.background.default,
+          // backgroundColor: theme.palette.background.default,
+          backgroundColor: 'aqua',
         }}
       >
-        <OfferText />
+        Это другая оферта
       </Container>
     </PageWrapper>
   );
