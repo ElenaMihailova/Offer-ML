@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-export const OfferText: React.FC = () => {
+export const OfferTextEssen: React.FC = () => {
   return (
     <Box>
       <Typography variant="body1" gutterBottom sx={{ color: 'black' }}>

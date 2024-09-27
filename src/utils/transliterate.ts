@@ -62,10 +62,13 @@ export const transliterate = (text: string): string => {
     э: 'e',
     ю: 'yu',
     я: 'ya',
+    ь: '',
+    ъ: '',
   };
 
   return text
     .split('')
     .map((char) => charMap[char] || char)
-    .join('');
+    .join('')
+    .replace(/[ьъ]/g, '');
 };

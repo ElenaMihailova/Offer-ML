@@ -1,7 +1,8 @@
 import { PageWrapper } from '../../../components/page-wrapper';
 import { Container, useTheme } from '@mui/material';
+import { OfferTextEsteLazer } from '../../../components/offer-text/offer-text-este-lazer';
 
-export const OfferPageView = () => {
+export const OfferPageViewEsteLazer = () => {
   const theme = useTheme();
   return (
     <PageWrapper>
@@ -15,11 +16,10 @@ export const OfferPageView = () => {
           paddingX: 0,
           paddingY: theme.spacing(2),
           maxWidth: theme.breakpoints.values.md,
-          // backgroundColor: theme.palette.background.default,
-          backgroundColor: 'aqua',
+          backgroundColor: theme.palette.background.default,
         }}
       >
-        Это другая оферта
+        <OfferTextEsteLazer />
       </Container>
     </PageWrapper>
   );

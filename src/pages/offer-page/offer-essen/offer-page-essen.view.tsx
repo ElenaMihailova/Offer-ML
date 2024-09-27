@@ -1,6 +1,6 @@
 import { PageWrapper } from '../../../components/page-wrapper';
 import { Container, useTheme } from '@mui/material';
-import { OfferText } from '../../../components/offer-text';
+import { OfferTextEssen } from '../../../components/offer-text/offer-text-essen';
 
 export const OfferPageViewEssen = () => {
   const theme = useTheme();
@@ -19,7 +19,7 @@ export const OfferPageViewEssen = () => {
           backgroundColor: theme.palette.background.default,
         }}
       >
-        <OfferText />
+        <OfferTextEssen />
       </Container>
     </PageWrapper>
   );

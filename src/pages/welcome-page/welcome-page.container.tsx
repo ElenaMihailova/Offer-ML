@@ -10,6 +10,7 @@ const WelcomePage = () => {
   const [isClientInfoFormVisible, setIsClientInfoFormVisible] = useState(false);
 
   const [cookies, setCookie] = useCookies(['city', 'branch']);
+
   const [selectedCity, setSelectedCity] = useState(cookies.city || 'Moscow');
   const [selectedBranch, setSelectedBranch] = useState(
     cookies.branch || 'branch1',

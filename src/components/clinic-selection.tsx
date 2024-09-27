@@ -39,10 +39,10 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
   useEffect(() => {
     if (selectedCity && citiesWithoutBranch.includes(selectedCity)) {
       setCookie('city', selectedCity, { path: '/' });
+      setSelectedBranch(null);
+      setCookie('branch', '', { path: '/' });
       onSelectionComplete(selectedCity);
-    }
-
-    if (selectedCity && selectedBranch) {
+    } else if (selectedCity && selectedBranch) {
       setCookie('city', selectedCity, { path: '/' });
       setCookie('branch', selectedBranch, { path: '/' });
       onSelectionComplete(selectedCity, selectedBranch);
@@ -56,6 +56,7 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
 
     if (citiesWithoutBranch.includes(city)) {
       onSelectionComplete(city);
+      setCookie('branch', '', { path: '/' });
     }
   };
 
