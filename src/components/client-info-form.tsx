@@ -1,6 +1,6 @@
 import { useForm, Controller } from 'react-hook-form';
-import MaskedInput from 'react-text-mask';
 import { Box, TextField, Button } from '@mui/material';
+import { useState } from 'react';
 
 interface ClientInfoFormProps {
   onSubmit: () => void;
@@ -12,11 +12,31 @@ interface FormData {
 }
 
 export const ClientInfoForm: React.FC<ClientInfoFormProps> = ({ onSubmit }) => {
-  const { handleSubmit, control } = useForm<FormData>();
+  const { handleSubmit, control, setValue } = useForm<FormData>();
+
+  const [phoneValue, setPhoneValue] = useState<string>('');
 
   const onSubmitForm = (data: FormData) => {
     console.log(data);
     onSubmit();
+  };
+
+  const handlePhoneFocus = () => {
+    if (!phoneValue) {
+      setPhoneValue('+7');
+      setValue('phone', '+7');
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    const numbersOnly = inputValue.replace(/\D/g, '');
+
+    if (numbersOnly.startsWith('7') && numbersOnly.length <= 11) {
+      setPhoneValue(`+${numbersOnly}`);
+      setValue('phone', `+${numbersOnly}`);
+    }
   };
 
   return (
@@ -52,39 +72,23 @@ export const ClientInfoForm: React.FC<ClientInfoFormProps> = ({ onSubmit }) => {
         name="phone"
         control={control}
         defaultValue=""
-        rules={{ required: 'Введите номер телефона' }}
+        rules={{
+          required: 'Введите номер телефона',
+          validate: (value) =>
+            value.length === 12 ||
+            'Введите корректный номер телефона +71234567890',
+        }}
         render={({ field, fieldState }) => (
-          <MaskedInput
+          <TextField
             {...field}
-            mask={[
-              '+',
-              '7',
-              '(',
-              /[1-9]/,
-              /\d/,
-              /\d/,
-              ')',
-              /\d/,
-              /\d/,
-              /\d/,
-              '-',
-              /\d/,
-              /\d/,
-              '-',
-              /\d/,
-              /\d/,
-            ]}
-            render={(ref, props) => (
-              <TextField
-                {...props}
-                inputRef={ref}
-                label="Введите номер телефона"
-                variant="outlined"
-                error={!!fieldState.error}
-                helperText={fieldState.error ? fieldState.error.message : ''}
-                fullWidth
-              />
-            )}
+            label="Введите номер телефона"
+            variant="outlined"
+            value={phoneValue}
+            onFocus={handlePhoneFocus}
+            onChange={handlePhoneChange}
+            error={!!fieldState.error}
+            helperText={fieldState.error ? fieldState.error.message : ''}
+            fullWidth
           />
         )}
       />

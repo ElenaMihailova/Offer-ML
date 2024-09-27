@@ -12,8 +12,8 @@ export const buttonStyles = (theme: Theme) => ({
       boxShadow: `0 0 10px ${theme.palette.primary.main}`,
     },
     '&:disabled': {
-      backgroundColor: theme.palette.text.disabled,
-      opacity: 0.5,
+      backgroundColor: theme.palette.text.secondary,
+      opacity: 0.4,
       cursor: 'not-allowed',
       color: theme.palette.common.white,
     },
