@@ -66,7 +66,10 @@ export const transliterate = (text: string): string => {
     ъ: '',
   };
 
-  return text
+  const cleanedText = text.replace(/[.,!?;:()]/g, '');
+  const formattedText = cleanedText.replace(/\s+/g, '-');
+
+  return formattedText
     .split('')
     .map((char) => charMap[char] || char)
     .join('')
