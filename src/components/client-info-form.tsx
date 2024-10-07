@@ -1,6 +1,7 @@
 import { useForm, Controller } from 'react-hook-form';
 import { Box, TextField, Button } from '@mui/material';
 import { useState } from 'react';
+import { submitUserData } from '../api/api-request';
 
 interface ClientInfoFormProps {
   onSubmit: () => void;
@@ -16,8 +17,9 @@ export const ClientInfoForm: React.FC<ClientInfoFormProps> = ({ onSubmit }) => {
 
   const [phoneValue, setPhoneValue] = useState<string>('');
 
-  const onSubmitForm = (data: FormData) => {
+  const onSubmitForm = async (data: FormData) => {
     console.log(data);
+    await submitUserData(data.name, data.phone);
     onSubmit();
   };
 
