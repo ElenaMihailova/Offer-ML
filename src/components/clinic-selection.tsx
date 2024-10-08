@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Stack, Button, Box, useTheme } from '@mui/material';
 import { CSSTransition } from 'react-transition-group';
-import { cities, moscowBranches, spbBranches } from '../data/constants';
+import { cities, moscowfiliales, spbfiliales } from '../data/constants';
 import { buttonStyles } from './button-styles';
 import { useCookies } from 'react-cookie';
 
 interface ClinicSelectionProps {
-  onSelectionComplete: (city: string, branch?: string) => void;
+  onSelectionComplete: (city: string, filial?: string) => void;
   onResetSelection: () => void;
 }
 
@@ -14,20 +14,20 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
   onSelectionComplete,
   onResetSelection,
 }) => {
-  const [cookies, setCookie] = useCookies(['city', 'branch']);
+  const [cookies, setCookie] = useCookies(['city', 'filial']);
 
   const [selectedCity, setSelectedCity] = useState<string | null>(
     cookies.city || null,
   );
-  const [selectedBranch, setSelectedBranch] = useState<string | null>(
-    cookies.branch || null,
+  const [selectedfilial, setSelectedfilial] = useState<string | null>(
+    cookies.filial || null,
   );
   const theme = useTheme();
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
 
   const styles = buttonStyles(theme);
 
-  const citiesWithoutBranch = ['Казань', 'Уфа', 'Тверь'];
+  const citiesWithoutfilial = ['Казань', 'Уфа', 'Тверь'];
 
   useEffect(() => {
     if (selectedCity) {
@@ -37,39 +37,39 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
   }, [selectedCity]);
 
   useEffect(() => {
-    if (selectedCity && citiesWithoutBranch.includes(selectedCity)) {
+    if (selectedCity && citiesWithoutfilial.includes(selectedCity)) {
       setCookie('city', selectedCity, { path: '/' });
-      setSelectedBranch(null);
-      setCookie('branch', '', { path: '/' });
+      setSelectedfilial(null);
+      setCookie('filial', '', { path: '/' });
       onSelectionComplete(selectedCity);
-    } else if (selectedCity && selectedBranch) {
+    } else if (selectedCity && selectedfilial) {
       setCookie('city', selectedCity, { path: '/' });
-      setCookie('branch', selectedBranch, { path: '/' });
-      onSelectionComplete(selectedCity, selectedBranch);
+      setCookie('filial', selectedfilial, { path: '/' });
+      onSelectionComplete(selectedCity, selectedfilial);
     }
-  }, [selectedCity, selectedBranch, onSelectionComplete, setCookie]);
+  }, [selectedCity, selectedfilial, onSelectionComplete, setCookie]);
 
   const handleCityClick = (city: string) => {
     setSelectedCity(city);
     setIsAnimationComplete(false);
-    setSelectedBranch(null);
+    setSelectedfilial(null);
 
-    if (citiesWithoutBranch.includes(city)) {
+    if (citiesWithoutfilial.includes(city)) {
       onSelectionComplete(city);
-      setCookie('branch', '', { path: '/' });
+      setCookie('filial', '', { path: '/' });
     }
   };
 
-  const handleBranchClick = (branch: string) => {
-    setSelectedBranch(branch);
+  const handlefilialClick = (filial: string) => {
+    setSelectedfilial(filial);
   };
 
   const handleReset = () => {
     setSelectedCity(null);
-    setSelectedBranch(null);
+    setSelectedfilial(null);
     setIsAnimationComplete(false);
     setCookie('city', '', { path: '/' });
-    setCookie('branch', '', { path: '/' });
+    setCookie('filial', '', { path: '/' });
     onResetSelection();
   };
 
@@ -107,34 +107,34 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
     </Stack>
   );
 
-  const renderBranchButtons = (branches: string[]) => (
+  const renderfilialButtons = (filiales: string[]) => (
     <Stack direction="column" sx={{ gap: theme.spacing(2) }}>
-      {branches.map((branch) => (
+      {filiales.map((filial) => (
         <CSSTransition
-          key={branch}
-          in={!selectedBranch || selectedBranch === branch}
+          key={filial}
+          in={!selectedfilial || selectedfilial === filial}
           timeout={500}
           classNames="fade"
           unmountOnExit
         >
           <Button
             variant="contained"
-            disabled={selectedBranch === branch}
-            color={selectedBranch === branch ? 'success' : 'primary'}
-            onClick={() => handleBranchClick(branch)}
-            sx={{ ...styles.common, ...styles.branchButton }}
+            disabled={selectedfilial === filial}
+            color={selectedfilial === filial ? 'success' : 'primary'}
+            onClick={() => handlefilialClick(filial)}
+            sx={{ ...styles.common, ...styles.filialButton }}
           >
-            {branch}
+            {filial}
           </Button>
         </CSSTransition>
       ))}
     </Stack>
   );
 
-  const renderSelectedBranchButton = () => (
+  const renderSelectedfilialButton = () => (
     <Box mt={2} textAlign="center">
       <Button variant="contained" color="success" disabled sx={styles.common}>
-        {selectedBranch}
+        {selectedfilial}
       </Button>
     </Box>
   );
@@ -156,7 +156,7 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
 
       {renderCityButtons()}
 
-      {selectedCity === 'Москва' && isAnimationComplete && !selectedBranch && (
+      {selectedCity === 'Москва' && isAnimationComplete && !selectedfilial && (
         <Box mt={2} textAlign="center">
           <Box
             mb={2}
@@ -164,13 +164,13 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
           >
             Выберите, пожалуйста, филиал:
           </Box>
-          {renderBranchButtons(moscowBranches)}
+          {renderfilialButtons(moscowfiliales)}
         </Box>
       )}
 
       {selectedCity === 'Санкт-Петербург' &&
         isAnimationComplete &&
-        !selectedBranch && (
+        !selectedfilial && (
           <Box mt={2} textAlign="center">
             <Box
               mb={2}
@@ -178,11 +178,11 @@ export const ClinicSelection: React.FC<ClinicSelectionProps> = ({
             >
               Выберите, пожалуйста, филиал:
             </Box>
-            {renderBranchButtons(spbBranches)}
+            {renderfilialButtons(spbfiliales)}
           </Box>
         )}
 
-      {selectedBranch && renderSelectedBranchButton()}
+      {selectedfilial && renderSelectedfilialButton()}
 
       <style>
         {`

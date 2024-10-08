@@ -26,7 +26,7 @@ export const buttonStyles = (theme: Theme) => ({
     opacity: 1,
     transform: 'translateY(0)',
   },
-  branchButton: {
+  filialButton: {
     backgroundColor: theme.palette.primary.main,
     '&:disabled': {
       backgroundColor: theme.palette.text.secondary,

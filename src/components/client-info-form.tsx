@@ -6,29 +6,26 @@ import { submitUserData } from '../api/api-request';
 interface ClientInfoFormProps {
   onSubmit: () => void;
   city: string;
-  branch: string;
+  filial: string;
 }
 
 interface FormData {
   name: string;
   phone: string;
   city: string;
-  branch: string;
+  filial: string;
 }
 
-export const ClientInfoForm: React.FC<ClientInfoFormProps> = ({ onSubmit, city, branch }) => {
+export const ClientInfoForm: React.FC<ClientInfoFormProps> = ({ onSubmit, city, filial }) => {
   const { handleSubmit, control, setValue } = useForm<FormData>();
 
   const [phoneValue, setPhoneValue] = useState<string>('');
 
   const onSubmitForm = async (data: FormData) => {
-    console.log('Form data:', data); 
-    console.log('City:', city); 
-  console.log('Branch:', branch); 
-    await submitUserData(data.name, data.phone, city, branch);
+    await submitUserData(data.name, data.phone, city, filial);
     onSubmit();
   };
-  
+
 
   const handlePhoneFocus = () => {
     if (!phoneValue) {

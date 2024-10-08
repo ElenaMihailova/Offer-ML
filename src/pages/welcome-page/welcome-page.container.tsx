@@ -9,33 +9,33 @@ const WelcomePage = () => {
   const [isAgreementConfirmed, setIsAgreementConfirmed] = useState(false);
   const [isClientInfoFormVisible, setIsClientInfoFormVisible] = useState(false);
 
-  const [cookies, setCookie] = useCookies(['city', 'branch']);
+  const [cookies, setCookie] = useCookies(['city', 'filial']);
 
   const [selectedCity, setSelectedCity] = useState(cookies.city || 'Moscow');
-  const [selectedBranch, setSelectedBranch] = useState(
-    cookies.branch || ' ',
+  const [selectedfilial, setSelectedfilial] = useState(
+    cookies.filial || ' ',
   );
 
   const [isChecked, setIsChecked] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
 
-  const citiesWithoutBranch = ['Казань', 'Уфа', 'Тверь'];
+  const citiesWithoutfilial = ['Казань', 'Уфа', 'Тверь'];
 
-  const offerUrl = citiesWithoutBranch.includes(selectedCity)
+  const offerUrl = citiesWithoutfilial.includes(selectedCity)
     ? `/offer/${transliterate(selectedCity)}`
-    : `/offer/${transliterate(selectedCity)}/${transliterate(selectedBranch)}`;
+    : `/offer/${transliterate(selectedCity)}/${transliterate(selectedfilial)}`;
 
-  const handleSelectionComplete = (city: string, branch?: string) => {
+  const handleSelectionComplete = (city: string, filial?: string) => {
     setIsSelectionComplete(true);
     setSelectedCity(city);
-    if (branch) {
-      setSelectedBranch(branch);
+    if (filial) {
+      setSelectedfilial(filial);
     }
 
     setCookie('city', city, { path: '/' });
-    if (branch) {
-      setCookie('branch', branch, { path: '/' });
+    if (filial) {
+      setCookie('filial', filial, { path: '/' });
     }
   };
 
@@ -47,9 +47,9 @@ const WelcomePage = () => {
     setIsSubmitted(false);
 
     setSelectedCity('Moscow');
-    setSelectedBranch(' ');
+    setSelectedfilial(' ');
     setCookie('city', 'Moscow', { path: '/' });
-    setCookie('branch', ' ', { path: '/' });
+    setCookie('filial', ' ', { path: '/' });
   };
 
   const handleFormSubmit = () => {
@@ -118,7 +118,7 @@ const WelcomePage = () => {
       isOpenModal={isModalOpen}
       handleCloseModal={handleModalClose}
       selectedCity={selectedCity}
-      selectedBranch={selectedBranch}
+      selectedfilial={selectedfilial}
     />
   );
 };

@@ -8,7 +8,7 @@ import { ThankYouMessage } from '../../components/thank-you-message';
 import SuccessModal from '../../components/success-modal';
 
 interface WelcomePageViewProps {
-  onSelectionComplete: (city: string, branch?: string) => void;
+  onSelectionComplete: (city: string, filial?: string) => void;
   onResetSelection: () => void;
   isFormSubmitted: boolean;
   onSubmit: () => void;
@@ -23,7 +23,7 @@ interface WelcomePageViewProps {
   isOpenModal: boolean;
   handleCloseModal: () => void;
   selectedCity: string;
-  selectedBranch: string;
+  selectedfilial: string;
 }
 
 const WelcomePageView: React.FC<WelcomePageViewProps> = ({
@@ -41,7 +41,7 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
   isOpenModal,
   handleCloseModal,
   selectedCity,
-  selectedBranch,
+  selectedfilial,
 }) => {
   const theme = useTheme();
 
@@ -89,7 +89,7 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
 
         {isClientInfoFormVisible && !isFormSubmitted && (
           <ClientInfoForm onSubmit={onSubmit} city={selectedCity}
-            branch={selectedBranch} />
+            filial={selectedfilial} />
         )}
 
         {isFormSubmitted && (
