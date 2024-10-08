@@ -13,11 +13,12 @@ const WelcomePage = () => {
 
   const [selectedCity, setSelectedCity] = useState(cookies.city || 'Moscow');
   const [selectedBranch, setSelectedBranch] = useState(
-    cookies.branch || 'branch1',
+    cookies.branch || ' ',
   );
 
   const [isChecked, setIsChecked] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
 
   const citiesWithoutBranch = ['Казань', 'Уфа', 'Тверь'];
 
@@ -46,9 +47,9 @@ const WelcomePage = () => {
     setIsSubmitted(false);
 
     setSelectedCity('Moscow');
-    setSelectedBranch('branch1');
+    setSelectedBranch(' ');
     setCookie('city', 'Moscow', { path: '/' });
-    setCookie('branch', 'branch1', { path: '/' });
+    setCookie('branch', ' ', { path: '/' });
   };
 
   const handleFormSubmit = () => {
@@ -57,7 +58,6 @@ const WelcomePage = () => {
 
   const handleAgreementConfirm = (isChecked: boolean) => {
     if (isChecked) {
-      console.log('Ознакомлен с договором:', isChecked);
       setIsAgreementConfirmed(true);
     }
   };
@@ -83,22 +83,22 @@ const WelcomePage = () => {
       setIsClientInfoFormVisible(false);
     }
   }, [isSelectionComplete]);
-  
+
   //modal
   const [isModalOpen, setIsModalOpen] = useState(false)
   const handleModalClose = () => setIsModalOpen(false);
   useEffect(() => {
     if (isAgreementConfirmed) {
-      setIsModalOpen(true); 
+      setIsModalOpen(true);
       const timer = setTimeout(() => {
         setIsModalOpen(false);
       }, 3000);
-  
+
       return () => clearTimeout(timer);
     }
   }, [isAgreementConfirmed]);
-  
-  
+
+
 
 
   return (
@@ -117,6 +117,8 @@ const WelcomePage = () => {
       onConfirmClick={handleConfirmClick}
       isOpenModal={isModalOpen}
       handleCloseModal={handleModalClose}
+      selectedCity={selectedCity}
+      selectedBranch={selectedBranch}
     />
   );
 };

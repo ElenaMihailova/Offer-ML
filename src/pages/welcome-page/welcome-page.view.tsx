@@ -22,6 +22,8 @@ interface WelcomePageViewProps {
   onConfirmClick: () => void;
   isOpenModal: boolean;
   handleCloseModal: () => void;
+  selectedCity: string;
+  selectedBranch: string;
 }
 
 const WelcomePageView: React.FC<WelcomePageViewProps> = ({
@@ -38,6 +40,8 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
   onConfirmClick,
   isOpenModal,
   handleCloseModal,
+  selectedCity,
+  selectedBranch,
 }) => {
   const theme = useTheme();
 
@@ -84,7 +88,8 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
         />
 
         {isClientInfoFormVisible && !isFormSubmitted && (
-          <ClientInfoForm onSubmit={onSubmit} />
+          <ClientInfoForm onSubmit={onSubmit} city={selectedCity}
+            branch={selectedBranch} />
         )}
 
         {isFormSubmitted && (
