@@ -83,6 +83,23 @@ const WelcomePage = () => {
       setIsClientInfoFormVisible(false);
     }
   }, [isSelectionComplete]);
+  
+  //modal
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const handleModalClose = () => setIsModalOpen(false);
+  useEffect(() => {
+    if (isAgreementConfirmed) {
+      setIsModalOpen(true); 
+      const timer = setTimeout(() => {
+        setIsModalOpen(false);
+      }, 3000);
+  
+      return () => clearTimeout(timer);
+    }
+  }, [isAgreementConfirmed]);
+  
+  
+
 
   return (
     <WelcomePageView
@@ -98,6 +115,8 @@ const WelcomePage = () => {
       isSubmitted={isSubmitted}
       onCheckboxChange={handleCheckboxChange}
       onConfirmClick={handleConfirmClick}
+      isOpenModal={isModalOpen}
+      handleCloseModal={handleModalClose}
     />
   );
 };

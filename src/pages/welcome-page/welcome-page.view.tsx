@@ -5,6 +5,7 @@ import { ClinicSelection } from '../../components/clinic-selection';
 import { ClientInfoForm } from '../../components/client-info-form';
 import { AgreementForm } from '../../components/agreement-form';
 import { ThankYouMessage } from '../../components/thank-you-message';
+import SuccessModal from '../../components/success-modal';
 
 interface WelcomePageViewProps {
   onSelectionComplete: (city: string, branch?: string) => void;
@@ -19,6 +20,8 @@ interface WelcomePageViewProps {
   isSubmitted: boolean;
   onCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onConfirmClick: () => void;
+  isOpenModal: boolean;
+  handleCloseModal: () => void;
 }
 
 const WelcomePageView: React.FC<WelcomePageViewProps> = ({
@@ -33,6 +36,8 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
   isSubmitted,
   onCheckboxChange,
   onConfirmClick,
+  isOpenModal,
+  handleCloseModal,
 }) => {
   const theme = useTheme();
 
@@ -93,6 +98,8 @@ const WelcomePageView: React.FC<WelcomePageViewProps> = ({
         )}
 
         {isAgreementConfirmed && <ThankYouMessage />}
+        <SuccessModal isOpenModal={isOpenModal} handleCloseModal={handleCloseModal} />
+
       </Container>
     </PageWrapper>
   );
