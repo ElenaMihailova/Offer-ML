@@ -35,15 +35,16 @@ export const ClientInfoForm: React.FC<ClientInfoFormProps> = ({ onSubmit, city, 
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-
-    const numbersOnly = inputValue.replace(/\D/g, '');
-
-    if (numbersOnly.startsWith('7') && numbersOnly.length <= 11) {
-      setPhoneValue(`+${numbersOnly}`);
-      setValue('phone', `+${numbersOnly}`);
+    let inputValue = e.target.value.replace(/\D/g, ''); 
+  
+    if (inputValue.length > 1) {
+      inputValue = `+7 (${inputValue.slice(1, 4)}) ${inputValue.slice(4, 7)}-${inputValue.slice(7, 9)}-${inputValue.slice(9, 11)}`;
     }
+  
+    setPhoneValue(inputValue);
+    setValue('phone', inputValue); // Устанавливаем значение в форме
   };
+  
 
   return (
     <Box
@@ -81,8 +82,8 @@ export const ClientInfoForm: React.FC<ClientInfoFormProps> = ({ onSubmit, city, 
         rules={{
           required: 'Введите номер телефона',
           validate: (value) =>
-            value.length === 12 ||
-            'Введите корректный номер телефона +71234567890',
+            value.length === 18 ||
+            'Введите корректный номер телефона телефона в формате +7 (999) 999-99-99',
         }}
         render={({ field, fieldState }) => (
           <TextField
